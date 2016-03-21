@@ -3,7 +3,6 @@ angular.module('MyApp')
     $scope.login = function() {
       $auth.login($scope.user)
         .then(function() {
-          console.log($scope.user);
           toastr.success('You have successfully signed in!');
           $location.path('/');
         })
