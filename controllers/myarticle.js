@@ -2,8 +2,8 @@ angular.module('MyApp')
   .controller('MyArticleCtrl', function($scope, $auth, toastr, Article, Account,$location) {
     $scope.getUserArticle = function(){
       Account.getProfile().then(function(response){
-        var user_id = response.data.id;
-        Article.getUserArticle(user_id)
+        var username = response.data.id;
+        Article.getUserArticle(username)
           .then(function(response) {
             $scope.articles = response.data;
           })
@@ -17,8 +17,8 @@ angular.module('MyApp')
 
     $scope.createArticle = function() {
       Account.getProfile().then(function(response){
-        var user_id = response.data.id;
-        $scope.article.user_id = user_id;
+        var own_by = response.data.id;
+        $scope.article.own_by = own_by;
         Article.createNewArticle($scope.article)
           .then(function() {
             toastr.success('Article has been created');

@@ -8,7 +8,7 @@ angular.module('MyApp')
         return $http.get('api/article/'+id);
       },
       getUserArticle: function(user_id){
-        return $http.get('api/article/sort/user_id/'+user_id);
+        return $http.get('api/article/sort/own_by/'+user_id);
       },
       createNewArticle: function(dataArticle){
         return $http.post('api/article', dataArticle);
