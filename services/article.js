@@ -9,6 +9,15 @@ angular.module('MyApp')
       },
       getUserArticle: function(user_id){
         return $http.get('api/article/sort/user_id/'+user_id);
+      },
+      createNewArticle: function(dataArticle){
+        return $http.post('api/article', dataArticle);
+      },
+      updateArticle: function(id, editArticle){
+        return $http.put('api/article/'+id, editArticle);
+      },
+      remove: function(id){
+        return $http.delete('api/article/'+id);
       }
     };
   });

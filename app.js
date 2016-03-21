@@ -1,5 +1,5 @@
-angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.router', 'satellizer'])
-  .config(function($stateProvider, $urlRouterProvider, $authProvider) {
+angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.router', 'satellizer','ngRoute'])
+  .config(function($stateProvider, $urlRouterProvider, $authProvider,$locationProvider) {
     $stateProvider
       .state('home', {
         url: '/',
@@ -43,13 +43,28 @@ angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.
           loginRequired: loginRequired
         }
       })
-      .state('articles', {
-        url: '/articles',
-        templateUrl: 'partials/articles.html',
+      .state('article', {
+        url: '/article',
+        templateUrl: 'partials/article.html',
         controller: 'ArticleCtrl'
+      })
+      .state('createarticle',{
+        url: '/createarticle',
+        templateUrl: 'partials/createarticle.html',
+        controller: 'MyArticleCtrl'
+      })
+      .state('editarticle',{
+        url: '/editarticle/:id',
+        templateUrl: 'partials/editarticle.html',
+        controller: 'ListArticle'
+      })
+      .state('deletearticle',{
+        url: '/deletearticle/:id',
+        controller: 'ListArticle'
       });
 
     $urlRouterProvider.otherwise('/');
+
 
     $authProvider.facebook({
       clientId: '657854390977827'
@@ -118,4 +133,5 @@ angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.
       }
       return deferred.promise;
     }
+
   });

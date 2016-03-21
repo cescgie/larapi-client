@@ -1,11 +1,17 @@
 <div class="container">
   <div class="panel panel-default">
-    <div class="panel-heading">My Article</div>
+    <div class="panel-heading">Article</div>
+    <a ui-sref="createarticle()" class="btn btn-info btn-sm" >Create New Article</a>
+
     <div class="panel-body">
       <legend>My Article</legend>
       <ul>
         <li ng-repeat="article in articles">
-            {{ article.name }} : {{ article.description }}
+          <p>{{ article.name }} : {{ article.description }}
+              <a ui-sref="editarticle({id : article.id})" class="btn btn-warning btn-sm" >Edit</a>
+              <a ng-click="deleteArticle(article.id)" class="btn btn-danger btn-sm" >Delete</a>
+            </div>
+          </p>
         </li>
       </ul>
     </div>

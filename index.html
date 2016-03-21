@@ -19,7 +19,7 @@
     <a class="navbar-brand" href="/#/"><i class="ion-ios7-pulse-strong"></i> Satellizer</a>
   </div>
   <ul class="nav navbar-nav">
-    <li><a href="/#/articles">All Articles</a></li>
+    <li><a href="/#/article">Article</a></li>
     <li ng-if="isAuthenticated()"><a href="/#/myarticle">My Article</a></li>
   </ul>
   <ul ng-if="!isAuthenticated()" class="nav navbar-nav pull-right">
@@ -33,7 +33,6 @@
 </div>
 
 <div ui-view></div>
-
 <!-- Third-party Libraries -->
 <script src="/vendor/angular.js"></script>
 <script src="/vendor/angular-animate.js"></script>
@@ -43,6 +42,8 @@
 <script src="/vendor/angular-ui-router.js"></script>
 <script src="/vendor/angular-toastr.tpls.js"></script>
 <script src="/vendor/satellizer.js"></script>
+<script src="/vendor/angular-route.js">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 
 <!-- Application Code -->
 <script src="/app.js"></script>
@@ -54,7 +55,7 @@
 <script src="/controllers/logout.js"></script>
 <script src="/controllers/profile.js"></script>
 <script src="/controllers/navbar.js"></script>
-<script src="/controllers/articles.js"></script>
+<script src="/controllers/article.js"></script>
 <script src="/controllers/myarticle.js"></script>
 <script src="/services/account.js"></script>
 <script src="/services/article.js"></script>
