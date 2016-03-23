@@ -61,6 +61,11 @@ angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.
       .state('deletearticle',{
         url: '/deletearticle/:id',
         controller: 'ListArticle'
+      })
+      .state('selectarticle',{
+        url: '/selectarticle/:id',
+        templateUrl: 'partials/selectarticle.html',
+        controller: 'PopArticleCtrl'
       });
 
     $urlRouterProvider.otherwise('/');

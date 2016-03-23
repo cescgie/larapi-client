@@ -5,7 +5,7 @@
       <legend>All Articles</legend>
       <ul>
         <li ng-repeat="article in articles">
-            <p>{{ article.name }} : {{ article.description }}</p>
+            <p><a href="#" ui-sref="selectarticle({id : article.id})">{{ article.name }} : {{ article.description }}</a></p>
         </li>
       </ul>
     </div>

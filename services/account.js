@@ -6,6 +6,9 @@ angular.module('MyApp')
       },
       updateProfile: function(profileData) {
         return $http.put('api/api/me', profileData);
+      },
+      getUser: function(id){
+        return $http.get('api/user/'+id);
       }
     };
   });
