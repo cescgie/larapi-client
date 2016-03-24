@@ -12,6 +12,9 @@ angular.module('MyApp')
       },
       changePassword: function(username,passwordData){
        return $http.post('api/user/'+username+'/change-password',passwordData);
+      },
+      resetPassword: function(passwordData){
+       return $http.post('api/user/forget_password',passwordData);
       }
     };
   });

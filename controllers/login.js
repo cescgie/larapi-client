@@ -1,5 +1,5 @@
 angular.module('MyApp')
-  .controller('LoginCtrl', function($scope, $location, $auth, toastr) {
+  .controller('LoginCtrl', function($scope, $location, $auth, toastr, Account, $location) {
     $scope.login = function() {
       $auth.login($scope.user)
         .then(function() {
@@ -27,5 +27,20 @@ angular.module('MyApp')
             toastr.error(error);
           }
         });
+    };
+
+    $scope.forgot_password = function(){
+      Account.resetPassword($scope.user)
+        .then(function(response) {
+          if(response.data.success==true){
+            toastr.info(response.data.message, response.status);
+            $location.path( "/login" );
+          }else{
+            toastr.info(response.data.message, response.status);
+          }
+        })
+        .catch(function(response) {
+          toastr.info(response.data.message, response.status);
+      });
     };
   });
