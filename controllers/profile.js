@@ -1,5 +1,5 @@
 angular.module('MyApp')
-  .controller('ProfileCtrl', function($scope, $auth, toastr, Account) {
+  .controller('ProfileCtrl', function($scope, $auth, toastr, Account, $location) {
     $scope.getProfile = function() {
       Account.getProfile()
         .then(function(response) {
@@ -40,4 +40,21 @@ angular.module('MyApp')
     };
 
     $scope.getProfile();
+
+    $scope.change_password = function(){
+      Account.getProfile().then(function(response){
+        var username = response.data.username;
+        Account.changePassword(username,$scope.password)
+          .then(function(response2) {
+            toastr.info(response2.data.message, response2.status);
+            if(response2.data.error!=true){
+              $location.path( "/profile" );
+            }
+          })
+          .catch(function(response2) {
+            toastr.error(response2.data.message, response2.status);
+            $location.path( "/change-password" );
+        });
+      });
+    };
   });

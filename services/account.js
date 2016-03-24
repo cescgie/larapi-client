@@ -9,6 +9,9 @@ angular.module('MyApp')
       },
       getUser: function(id){
         return $http.get('api/user/'+id);
+      },
+      changePassword: function(username,passwordData){
+       return $http.post('api/user/'+username+'/change-password',passwordData);
       }
     };
   });

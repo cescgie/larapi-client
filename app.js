@@ -51,21 +51,38 @@ angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.
       .state('createarticle',{
         url: '/createarticle',
         templateUrl: 'partials/createarticle.html',
-        controller: 'MyArticleCtrl'
+        controller: 'MyArticleCtrl',
+        resolve: {
+          loginRequired: loginRequired
+        }
       })
       .state('editarticle',{
         url: '/editarticle/:id',
         templateUrl: 'partials/editarticle.html',
-        controller: 'ListArticle'
+        controller: 'ListArticle',
+        resolve: {
+          loginRequired: loginRequired
+        }
       })
       .state('deletearticle',{
         url: '/deletearticle/:id',
-        controller: 'ListArticle'
+        controller: 'ListArticle',
+        resolve: {
+          loginRequired: loginRequired
+        }
       })
       .state('selectarticle',{
         url: '/selectarticle/:id',
         templateUrl: 'partials/selectarticle.html',
         controller: 'PopArticleCtrl'
+      })
+      .state('change-password', {
+        url: '/change-password',
+        templateUrl: 'partials/changepassword.html',
+        controller: 'ProfileCtrl',
+        resolve: {
+          loginRequired: loginRequired
+        }
       });
 
     $urlRouterProvider.otherwise('/');
