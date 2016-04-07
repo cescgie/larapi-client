@@ -1,4 +1,4 @@
-angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.router', 'satellizer','ngRoute'])
+angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.router', 'satellizer','ngRoute','monospaced.qrcode'])
   .config(function($stateProvider, $urlRouterProvider, $authProvider,$locationProvider) {
     $stateProvider
       .state('home', {
@@ -88,6 +88,11 @@ angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.
         url: '/forgot-password',
         templateUrl: 'partials/forgotpassword.html',
         controller: 'LoginCtrl'
+      })
+      .state('qr-code', {
+        url: '/qr-code',
+        templateUrl: 'partials/qr-code.html',
+        controller: 'QRCodeCtrl'
       });
 
     $urlRouterProvider.otherwise('/');

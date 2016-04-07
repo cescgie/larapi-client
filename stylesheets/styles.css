@@ -417,3 +417,65 @@ ul {
     opacity: 1;
   }
 }
+
+
+/*QR CODE*/
+
+.qrcode {
+      display: block;
+      margin: 24px auto 16px;
+      max-width: 100%;
+    }
+    .qrcode-link {
+      display: table;
+      margin: 24px auto 16px;
+    }
+    .qrcode-link .qrcode {
+      margin: 0;
+    }
+
+    small {
+      display: block;
+      clear: both;
+      margin: 0 8px;
+    }
+    p,
+    pre {
+      overflow: hidden;
+      margin: 16px 0;
+    }
+    form {
+      margin: 0 auto 8px;
+      width: 274px;
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+    }
+    label {
+      float: left;
+      width: 60px;
+      color: #888;
+      text-align: left;
+      line-height: 2.125;
+      cursor: pointer;
+    }
+    input,
+    textarea {
+      float: right;
+      -moz-box-sizing: border-box;
+           box-sizing: border-box;
+      padding: 7px 3px 7px 7px;
+      width: 204px;
+      border: 1px solid #ccc;
+    }
+    textarea {
+      resize: vertical;
+    }
+    select {
+      float: right;
+      -moz-box-sizing: border-box;
+           box-sizing: border-box;
+      padding: 7px 3px 7px 7px;
+      width: 204px;
+      height: 34px;
+      border: 1px solid #ccc;
+    }
