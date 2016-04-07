@@ -1,26 +1,26 @@
 <div class="container">
   <div class="panel panel-default">
     <div class="panel-heading">QR Code Generator</div>
-    <div class="panel-body" style="text-align: center;">
+    <div class="panel-body">
 
       <qrcode version="{{v}}" error-correction-level="{{e}}" size="{{s}}" data="{{foo}}" download></qrcode>
 
-      <form>
+      <form class="qrcodeform">
         <p>
-          <label for="data">Data</label>
-          <textarea id="data" data-ng-model="foo" maxlength="2953" placeholder="Input text"></textarea>
+          <label class="qrcodelabel" for="data">Data</label>
+          <textarea id="data" class="qrcodetxt" data-ng-model="foo" maxlength="2953" placeholder="Input text"></textarea>
         </p>
         <p>
-          <label for="size">Size</label>
-          <input id="size" type="number" data-ng-model="s" placeholder="100">
+          <label class="qrcodelabel" for="size">Size</label>
+          <input class="qrcodeinput" id="size" type="number" data-ng-model="s" placeholder="100">
         </p>
         <p>
-          <label for="version">Version</label>
-          <input id="version" type="number" data-ng-model="v" min="1" max="40" placeholder="1 - 40">
+          <label class="qrcodelabel" for="version">Version</label>
+          <input class="qrcodeinput" id="version" type="number" data-ng-model="v" min="1" max="40" placeholder="1 - 40">
         </p>
         <p>
-          <label for="level" title="Error Correction Level">Level</label>
-          <select id="level" data-ng-model="e" data-ng-options="option.version as option.name for option in [{name:'Low', version:'L'},{name:'Medium', version:'M'},{name:'Quartile', version:'Q'},{name:'High', version:'H'}]"></select>
+          <label class="qrcodelabel" for="level" title="Error Correction Level">Level</label>
+          <select class="qrcodeselc" id="level" data-ng-model="e" data-ng-options="option.version as option.name for option in [{name:'Low', version:'L'},{name:'Medium', version:'M'},{name:'Quartile', version:'Q'},{name:'High', version:'H'}]"></select>
         </p>
       </form>
 
