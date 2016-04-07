@@ -27,6 +27,8 @@ angular.module('MyApp')
               var result = response.data;
               result['username'] = user;
               $scope.article = result;
+              $scope.article.size = 200;
+              $scope.article.level = 'medium';
             });
           })
           .catch(function(response) {

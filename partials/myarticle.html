@@ -7,7 +7,7 @@
       <legend>My Article</legend>
       <ul>
         <li ng-repeat="article in articles">
-          <p>{{ article.name }} : {{ article.description }}
+          <p><a href="#" ui-sref="selectarticle({id : article.id})">{{ article.name }} : {{ article.description }}</a>
               <a ui-sref="editarticle({id : article.id})" class="btn btn-warning btn-sm" >Edit</a>
               <a ng-click="deleteArticle(article.id)" class="btn btn-danger btn-sm" >Delete</a>
             </div>

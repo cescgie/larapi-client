@@ -1,20 +1,21 @@
 angular.module('MyApp')
   .factory('Account', function($http) {
+    var BaseUrl = '';
     return {
       getProfile: function() {
-        return $http.get('api/api/me');
+        return $http.get(BaseUrl+'api/api/me');
       },
       updateProfile: function(profileData) {
-        return $http.put('api/api/me', profileData);
+        return $http.put(BaseUrl+'api/api/me', profileData);
       },
       getUser: function(id){
-        return $http.get('api/user/'+id);
+        return $http.get(BaseUrl+'api/user/'+id);
       },
       changePassword: function(username,passwordData){
-       return $http.post('api/user/'+username+'/change-password',passwordData);
+       return $http.post(BaseUrl+'api/user/'+username+'/change-password',passwordData);
       },
       resetPassword: function(passwordData){
-       return $http.post('api/user/forget_password',passwordData);
+       return $http.post(BaseUrl+'api/user/forget_password',passwordData);
       }
     };
   });

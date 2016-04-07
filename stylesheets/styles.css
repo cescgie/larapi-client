@@ -428,7 +428,7 @@ ul {
 }
 .qrcode-link {
       display: table;
-      margin: 24px auto 16px;
+      /*margin: 24px auto 16px;*/
 }
 .qrcode-link .qrcode {
       margin: 0;

@@ -6,6 +6,8 @@
       <p>Article name : {{article.name}}</p>
       <p>Article description : {{article.description}}</p>
       <p>Article owner : {{article.username}}</p>
+      <p>Article QR Code : </p>
+      <qrcode class="article" version="{{v}}" error-correction-level="{{article.level}}" size="{{article.size}}" data="{{article.qrcode}}" download></qrcode>
     </div>
   </div>
 </div>
