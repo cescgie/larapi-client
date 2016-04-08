@@ -1,6 +1,6 @@
 angular.module('MyApp')
   .factory('Article', function($http) {
-    var BaseUrl = 'http://0.0.0.0:8081';
+    var BaseUrl = '/api';
     return {
       all: function() {
         return $http.get(BaseUrl+'/article');
