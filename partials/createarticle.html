@@ -19,7 +19,7 @@
         </div>
         <div class="form-group has-feedback" ng-class="{ 'has-error' : articleForm.qrcode.$invalid && articleForm.qrcode.$dirty }">
           <label for="name">Article QR Code if available</label>
-          <input class="form-control" type="number" id="qrcode" name="qrcode" ng-model="article.qrcode" placeholder="QR Code maximal 12 characters and only number allowed">
+          <input class="form-control" type="number" id="qrcode" name="qrcode" ng-model="article.qrcode" min="1" max="999999999999" placeholder="QR Code maximal 12 characters and only number allowed">
         </div>
         <div class="modal-footer">
           <button type="submit" ng-disabled="articleForm.$invalid" class="btn btn-default">Create</button>
