@@ -20,8 +20,12 @@ angular.module('MyApp')
         var own_by = response.data.id;
         $scope.article.own_by = own_by;
         Article.createNewArticle($scope.article)
-          .then(function() {
-            toastr.success('Article has been created');
+          .then(function(response,event) {
+            if(response.data.status===false){
+              toastr.error(response.data.message);
+            }else{
+              toastr.success(response.data.message);
+            }
           })
           .catch(function(response) {
             toastr.error(response.data.message, response.status);
@@ -34,7 +38,7 @@ angular.module('MyApp')
     $scope.deleteArticle = function(id) {
       Article.remove(id)
         .then(function() {
-          toastr.success('Article has been deleted');
+          toastr.success(response.data.message);
         })
         .catch(function(response) {
           toastr.error(response.data.message, response.status);
@@ -65,7 +69,7 @@ angular.module('MyApp')
     $scope.saveArticle = function(id) {
       Article.updateArticle(id,$scope.article)
         .then(function() {
-          toastr.success('Article has been updated');
+          toastr.success(response.data.message);
         })
         .catch(function(response) {
           toastr.error(response.data.message, response.status);

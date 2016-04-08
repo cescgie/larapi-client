@@ -21,7 +21,7 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
       httpInterceptor: function() { return true; },
       withCredentials: false,
       tokenRoot: null,
-      baseUrl: '/api/',
+      baseUrl: 'http://0.0.0.0:8081',
       loginUrl: '/auth/login',
       signupUrl: '/auth/signup',
       unlinkUrl: '/auth/unlink/',
