@@ -22,6 +22,7 @@
     <li><a href="/#/article">Article</a></li>
     <li><a href="/#/qr-code">QR Code</a></li>
     <li ng-if="isAuthenticated()"><a href="/#/myarticle">My Article</a></li>
+    <li ng-if="isAuthenticated()"><a href="/#/chat">Chat</a></li>
   </ul>
   <ul ng-if="!isAuthenticated()" class="nav navbar-nav pull-right">
     <li><a href="/#/login">Login</a></li>
@@ -47,6 +48,9 @@
 <script src="/vendor/qrcode-generator.js"></script>
 <script src="/vendor/qrcode_UTF8.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
+<script src="vendor/socket.min.js"></script>
+<script src="bower_components/angular-scroll-glue/src/scrollglue.js"></script>
 
 <!-- Application Code -->
 <script src="/app.js"></script>
@@ -62,7 +66,9 @@
 <script src="/controllers/article.js"></script>
 <script src="/controllers/myarticle.js"></script>
 <script src="/controllers/qr-code.js"></script>
+<script src="/controllers/chat.js"></script>
 <script src="/services/account.js"></script>
 <script src="/services/article.js"></script>
+<script src="/services/chat.js"></script>
 </body>
 </html>

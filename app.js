@@ -1,4 +1,4 @@
-angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.router', 'satellizer','ngRoute','monospaced.qrcode'])
+angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.router', 'satellizer','ngRoute','monospaced.qrcode', 'btford.socket-io','luegg.directives'])
   .config(function($stateProvider, $urlRouterProvider, $authProvider,$locationProvider) {
     $stateProvider
       .state('home', {
@@ -93,6 +93,11 @@ angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.
         url: '/qr-code',
         templateUrl: 'partials/qr-code.html',
         controller: 'QRCodeCtrl'
+      })
+      .state('chat', {
+        url: '/chat',
+        templateUrl: 'partials/chat.html',
+        controller: 'ChatCtrl'
       });
 
     $urlRouterProvider.otherwise('/');
