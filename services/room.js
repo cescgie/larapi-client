@@ -8,7 +8,7 @@ angular.module('MyApp')
         return $http.get(BaseUrl+'/room/'+id);
       },
       createNewRoom: function(dataRoom){
-        return $http.post(BaseUrl+'/room/', dataRoom);
+        return $http.post(BaseUrl+'/room', dataRoom);
       },
       updateRoom: function(id, editRoom){
         return $http.put(BaseUrl+'/room/'+id, editRoom);
