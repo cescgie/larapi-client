@@ -5,6 +5,9 @@
       <p>Username : {{user.username}}</p>
       <p>Email : {{user.email}}</p>
       <p>Registered : {{user.created_at | timeAgo}}</p>
+      <div ng-if="isAuthenticated() && isAuth() != user.id">
+        <p><a href="javascript:void(0)" ng-click="startchat(user.id,isAuth())">Chat {{user.username}}</a></p>
+      </div>
     </div>
   </div>
 </div>

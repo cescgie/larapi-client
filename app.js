@@ -1,6 +1,6 @@
-var BaseUrl = '/api';
+var BaseUrl = 'http://localhost:8080/api';
 
-angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.router', 'satellizer','ngRoute','monospaced.qrcode', 'btford.socket-io','luegg.directives','yaru22.angular-timeago'])
+angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.router', 'satellizer','ngRoute','monospaced.qrcode', 'btford.socket-io','luegg.directives','yaru22.angular-timeago','ngDialog'])
   .config(function($stateProvider, $urlRouterProvider, $authProvider,$locationProvider) {
     $stateProvider
       .state('home', {

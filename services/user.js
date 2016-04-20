@@ -1,7 +1,7 @@
 angular.module('MyApp')
   .factory('User', function($http) {
     return {
-      all: function(id){
+      all: function(){
         return $http.get(BaseUrl+'/user');
       },
       getUser: function(id){
