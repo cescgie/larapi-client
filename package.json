@@ -1,0 +1,15 @@
+{
+  "name": "Angular",
+  "version": "0.0.1",
+  "description": "Angular app",
+  "dependencies": {
+    "socket.io": "~1.4.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cescgie/larapi-client.git"
+  },
+  "author": "Yoggi Firmanda",
+  "email": "yoggifirmanda@gmail.com",
+  "license": "MIT"
+}
