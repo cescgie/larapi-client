@@ -1,0 +1,12 @@
+<div class="container">
+  <div class="panel panel-default">
+    <div class="panel-heading">People</div>
+    <div class="panel-body">
+      <ul>
+        <li ng-repeat="user in users">
+            <p><a href="#" ui-sref="user({id : user.id})">{{ user.username }} : {{ user.email }}</a></p>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

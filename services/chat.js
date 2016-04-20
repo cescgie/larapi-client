@@ -1,8 +1,7 @@
-var BaseUrl = 'http://46.101.155.176:3000';
-
+var SocketUrl = 'http://46.101.155.176:3000';
 angular.module('MyApp')
 .factory('Socket', function(socketFactory){
-  var myIoSocket = io.connect(BaseUrl);
+  var myIoSocket = io.connect(SocketUrl);
   mySocket = socketFactory({
     ioSocket: myIoSocket
   });

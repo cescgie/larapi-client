@@ -26,6 +26,7 @@ angular.module('MyApp')
               var user = res2.data.username;
               var result = response.data;
               result['username'] = user;
+              result['user_id'] = user_id;
               $scope.article = result;
               $scope.article.size = 200;
               $scope.article.level = 'medium';

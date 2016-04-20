@@ -1,6 +1,5 @@
 angular.module('MyApp')
   .factory('Account', function($http) {
-    var BaseUrl = '/api';
     return {
       getProfile: function() {
         return $http.get(BaseUrl+'/api/me');

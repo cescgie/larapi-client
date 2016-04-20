@@ -22,7 +22,9 @@
     <li><a href="/#/article">Article</a></li>
     <li><a href="/#/qr-code">QR Code</a></li>
     <li ng-if="isAuthenticated()"><a href="/#/myarticle">My Article</a></li>
-    <li ng-if="isAuthenticated()"><a href="/#/chat">Chat</a></li>
+    <li ng-if="isAuthenticated()"><a href="/#/chat">Global Chat</a></li>
+    <li><a href="/#/people">People</a></li>
+    <li ng-if="isAuthenticated()"><a href="/#/friends">Friends</a></li>
   </ul>
   <ul ng-if="!isAuthenticated()" class="nav navbar-nav pull-right">
     <li><a href="/#/login">Login</a></li>
@@ -67,8 +69,11 @@
 <script src="/controllers/myarticle.js"></script>
 <script src="/controllers/qr-code.js"></script>
 <script src="/controllers/chat.js"></script>
+<script src="/controllers/people.js"></script>
+<script src="/controllers/friends.js"></script>
 <script src="/services/account.js"></script>
 <script src="/services/article.js"></script>
 <script src="/services/chat.js"></script>
+<script src="/services/user.js"></script>
 </body>
 </html>

@@ -1,3 +1,5 @@
+var BaseUrl = '/api';
+
 angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.router', 'satellizer','ngRoute','monospaced.qrcode', 'btford.socket-io','luegg.directives'])
   .config(function($stateProvider, $urlRouterProvider, $authProvider,$locationProvider) {
     $stateProvider
@@ -98,6 +100,21 @@ angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.
         url: '/chat',
         templateUrl: 'partials/chat.html',
         controller: 'ChatCtrl'
+      })
+      .state('people', {
+        url: '/people',
+        templateUrl: 'partials/people.html',
+        controller: 'PeopleCtrl'
+      })
+      .state('friends', {
+        url: '/friends',
+        templateUrl: 'partials/friends.html',
+        controller: 'FriendsCtrl'
+      })
+      .state('user',{
+        url: '/user/:id',
+        templateUrl: 'partials/selectuser.html',
+        controller: 'PopUserCtrl'
       });
 
     $urlRouterProvider.otherwise('/');

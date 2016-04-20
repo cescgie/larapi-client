@@ -1,6 +1,5 @@
 angular.module('MyApp')
   .factory('Article', function($http) {
-    var BaseUrl = '/api';
     return {
       all: function() {
         return $http.get(BaseUrl+'/article');
