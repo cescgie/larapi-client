@@ -63,13 +63,13 @@ angular.module('MyApp')
 
 .controller('ChatMemberCtrl', function($scope, $auth, toastr, $stateParams, $timeout,Account, Socket, Chat,Room) {
   // $scope.messagedbs = [{"message":"test","username":"cescgie","timestamp":"2016-04-21 00:00:00"},{"message":"yuhu","username":"tono","timestamp":"2016-04-21 01:01:01"}];
-  var id = $stateParams.id;
+  var roomid = $stateParams.id;
 
   /**
   * Populate Message from database
   */
   $scope.populateMessage = function (){
-    Room.getRoom(id)
+    Room.getRoom(roomid)
       .then(function(response) {
         $scope.messagedbs = JSON.parse(response.data.content);
       })
@@ -77,10 +77,6 @@ angular.module('MyApp')
         toastr.error(response.data.message, response.status);
       });
   };
-
-  $scope.populateMessage();
-
-  $scope.messages = Chat.getMessages();
 
   $scope.data = {};
   $scope.data.message = "";
@@ -90,13 +86,21 @@ angular.module('MyApp')
 
   var username;
 
-  Socket.on('connect',function(){
-    Account.getProfile().then(function(response){
-      username = response.data.username;
-      Socket.emit('add user',username);
-      Chat.setUsername(username);
+  $scope.connectToSocket = function (){
+    Chat.setRoom(roomid);
+    Socket.on('connect',function(){
+      Account.getProfile().then(function(response){
+        username = response.data.username;
+        Socket.emit('add user',username);
+        Chat.setUsername(username);
+      });
     });
-  });
+  };
+
+  $scope.connectToSocket();
+  $scope.populateMessage();
+  $scope.messages = Chat.removeMessage();
+  $scope.messages = Chat.getMessages();
 
   var sendUpdateTyping = function(){
     if (!typing) {
@@ -131,12 +135,12 @@ angular.module('MyApp')
   };
 
   $scope.sendMessage = function(msg){
-    Chat.sendMessage(msg);
-
+    Chat.sendMessage(msg,roomid);
+    var username = Chat.setUsername();
     var newMessage = {"message":msg,"username":username,"timestamp":Date.now()};
     var pushMessage = [];
 
-    Room.getContent(id)
+    Room.getContent(roomid)
       .then(function(response) {
         $scope.messagedbs = JSON.parse(response.data);
         for( var i in $scope.messagedbs ) {
@@ -145,8 +149,7 @@ angular.module('MyApp')
         pushMessage.push(newMessage);
         $scope.pushMessage = {};
         $scope.pushMessage.content = pushMessage;
-        console.log(pushMessage);
-        Room.updateRoom(id,$scope.pushMessage)
+        Room.updateRoom(roomid,$scope.pushMessage)
           .then(function(response) {
             if(response.data.status===false){
               console.log(response.data.message);

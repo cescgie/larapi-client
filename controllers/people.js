@@ -62,13 +62,11 @@ angular.module('MyApp')
       Room.getRoom(room_id_1).then(function(resp1){
         if (Object.keys(resp1.data).length !== 0){
           $scope.messages = resp1.data.content;
-          console.log(resp1.data.content);
           $location.path( "/chat/"+room_id_1 );
         }else{
           Room.getRoom(room_id_2).then(function(resp2){
             if (Object.keys(resp2.data).length !== 0){
               $scope.messages = resp2.data.content;
-              console.log(resp2.data.content);
               $location.path( "/chat/"+room_id_2 );
             }else{
               $scope.room.content = [{"message":"Welcome","username":"Admin","timestamp":Date.now()}];

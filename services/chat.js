@@ -1,4 +1,4 @@
-var SocketUrl = 'http://46.101.155.176:3000';
+var SocketUrl = 'http://localhost:3000';
 angular.module('MyApp')
 .factory('Socket', function(socketFactory){
   var myIoSocket = io.connect(SocketUrl);
@@ -36,6 +36,8 @@ angular.module('MyApp')
   var username;
   var users = {};
   var timestamp;
+  var room;
+
   users.numUsers = 0;
 
   var messages = [];
@@ -118,7 +120,18 @@ angular.module('MyApp')
     getMessages: function() {
       return messages;
     },
-    sendMessage: function(msg){
+    removeMessage:function(){
+      messages = [];
+      return messages;
+    },
+    getRoom: function(){
+      return room;
+    },
+    setRoom: function(roomid){
+      room = roomid;
+      Socket.emit('create', roomid);
+    },
+    sendMessage: function(msg,roomid){
       messages.push({
         username: username,
         message: msg,
