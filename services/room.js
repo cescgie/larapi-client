@@ -15,6 +15,9 @@ angular.module('MyApp')
       },
       removeRoom: function(id){
         return $http.delete(BaseUrl+'/room/'+id);
+      },
+      getContent: function(id){
+        return $http.get(BaseUrl+'/room/'+id+'/content');
       }
     };
   });

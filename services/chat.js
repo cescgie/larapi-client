@@ -35,6 +35,7 @@ angular.module('MyApp')
 
   var username;
   var users = {};
+  var timestamp;
   users.numUsers = 0;
 
   var messages = [];
@@ -44,6 +45,7 @@ angular.module('MyApp')
     var notification          = {};
     notification.username     = username;
     notification.message      = message;
+    notification.timestamp    = Date.now();
     notification.notification = true;
     return notification;
   };
@@ -59,7 +61,8 @@ angular.module('MyApp')
   Socket.on('typing', function (data) {
     var typingMsg = {
       username: data.username,
-      message: TYPING_MSG
+      message: TYPING_MSG,
+      timestamp:null
     };
     addMessage(typingMsg);
   });
@@ -69,7 +72,7 @@ angular.module('MyApp')
   });
 
   Socket.on('user joined', function (data) {
-    var msg = data.username + ' joined';
+    var msg = data.username + ' online';
     var notification = new Notification(data.username,msg);
     addMessage(notification);
     Users.setNumUsers(data);
@@ -77,7 +80,7 @@ angular.module('MyApp')
   });
 
   Socket.on('user left', function (data) {
-    var msg = data.username + ' left';
+    var msg = data.username + ' offline';
     var notification = new Notification(data.username,msg);
     addMessage(notification);
     Users.setNumUsers(data);
@@ -118,14 +121,11 @@ angular.module('MyApp')
     sendMessage: function(msg){
       messages.push({
         username: username,
-        message: msg
+        message: msg,
+        timestamp:Date.now()
       });
-      // scrollBottom();
       Socket.emit('new message', msg);
     }
-    // scrollBottom: function(){
-    //   scrollBottom();
-    // }
   };
 })
 

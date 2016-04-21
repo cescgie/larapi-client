@@ -13,7 +13,7 @@ angular.module('MyApp')
     $scope.getAllUser();
   })
 
-  .controller('PopUserCtrl', function($scope,$stateParams,User,$auth,ngDialog,Account,Room,toastr) {
+  .controller('PopUserCtrl', function($scope,$stateParams,User,$auth,ngDialog,Account,Room,toastr,$location) {
     $scope.params = $stateParams;
 
     $scope.populateData = function (){
@@ -61,19 +61,23 @@ angular.module('MyApp')
 
       Room.getRoom(room_id_1).then(function(resp1){
         if (Object.keys(resp1.data).length !== 0){
-          console.log('ada1');
+          $scope.messages = resp1.data.content;
           console.log(resp1.data.content);
+          $location.path( "/chat/"+room_id_1 );
         }else{
           Room.getRoom(room_id_2).then(function(resp2){
             if (Object.keys(resp2.data).length !== 0){
-              console.log('ada2');
+              $scope.messages = resp2.data.content;
               console.log(resp2.data.content);
+              $location.path( "/chat/"+room_id_2 );
             }else{
+              $scope.room.content = [{"message":"Welcome","username":"Admin","timestamp":Date.now()}];
               Room.createNewRoom($scope.room)
                 .then(function(response) {
                   if(response.data.status===false){
                     toastr.error(response.data.message);
                   }else{
+                    $location.path( "/chat/"+$scope.room.id);
                     toastr.success(response.data.message);
                   }
                 })

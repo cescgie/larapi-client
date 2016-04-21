@@ -115,6 +115,14 @@ angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.
         url: '/user/:id',
         templateUrl: 'partials/selectuser.html',
         controller: 'PopUserCtrl'
+      })
+      .state('chatmember', {
+        url: '/chat/:id',
+        templateUrl: 'partials/chat/chatmember.html',
+        controller: 'ChatMemberCtrl',
+        resolve: {
+          loginRequired: loginRequired
+        }
       });
 
     $urlRouterProvider.otherwise('/');

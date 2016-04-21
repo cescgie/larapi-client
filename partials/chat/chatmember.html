@@ -1,0 +1,47 @@
+<div class="container">
+  <div class="panel panel-default">
+    <div class="panel-heading">Chat</div>
+    <div class="panel-body">
+      <div class="chat chatArea" style="height: 300px; overflow: auto" scroll-glue-bottom="glued">
+        <div ng-repeat="messagedb in messagedbs track by $index">
+          <div ng-if="!messageIsMine(messagedb.username)">
+            <p class="username" ng-show="!messageIsMine(messagedb.username)">{{messagedb.username}}</p>
+          </div>
+          <div class="message" ng-class='getBubbleClass(messagedb.username)'>
+            <p ng-bind="messagedb.message"></p>
+          </div>
+          <span>{{messagedb.timestamp | timeAgo}}</span>
+        </div>
+        <div ng-repeat="message in messages">
+          <span ng-show="!message.notification">
+            <div ng-if="!messageIsMine(message.username)">
+              <p class="username" ng-show="!messageIsMine(message.username)">{{message.username}}</p>
+            </div>
+            <div class="message" ng-class='getBubbleClass(message.username)'>
+              <p ng-bind="message.message"></p>
+            </div>
+            <div class="clear"></div>
+          </span>
+          <div ng-if="message.timestamp!=null">
+            <span>{{message.timestamp | timeAgo}}</span>
+          </div>
+          <span ng-show="message.notification">
+            <p class="notification" ng-bind="message.message"></p>
+          </span>
+        </div>
+      </div>
+      <div class="inputMessage">
+        <form name="sendMessageForm" ng-submit="sendMessage(data.message)" novalidate>
+          <label class="item-input-wrapper">
+              <input id="msg-input" ng-change="updateTyping()" ng-model="data.message" class="inputMessage chat" type="text" placeholder="Message">
+          </label>
+          <div class="footer-btn-wrap">
+            <button class="button button-icon icon ion-ios-paperplane footer-btn" type="submit"
+                ng-disabled="!data.message || data.message === ''">
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
