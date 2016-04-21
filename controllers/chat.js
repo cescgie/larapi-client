@@ -61,9 +61,26 @@ angular.module('MyApp')
 
 })
 
-.controller('ChatMemberCtrl', function($scope, $auth, toastr, $stateParams, $timeout,Account, Socket, Chat,Room) {
+.controller('ChatMemberCtrl', function($scope, $auth, $q, toastr, $stateParams, $timeout,Account, Socket, Chat,Room,User) {
   // $scope.messagedbs = [{"message":"test","username":"cescgie","timestamp":"2016-04-21 00:00:00"},{"message":"yuhu","username":"tono","timestamp":"2016-04-21 01:01:01"}];
   var roomid = $stateParams.id;
+  $scope.userdata = {};
+  $scope.getUserId = function(){
+    var logged_uid = $auth.getPayload();
+    return logged_uid.sub;
+  };
+
+  var username;
+
+  $scope.setUsername = function(){
+    Account.getUser($scope.getUserId()).then(function(response){
+      username = response.data.username;
+      User.setUsername(username);
+    });
+  };
+  $scope.setUsername();
+
+  var userid = $scope.getUserId();
 
   /**
   * Populate Message from database
@@ -71,7 +88,22 @@ angular.module('MyApp')
   $scope.populateMessage = function (){
     Room.getRoom(roomid)
       .then(function(response) {
-        $scope.messagedbs = JSON.parse(response.data.content);
+        var res = JSON.parse(response.data.content);
+        $scope.messagedbs = res;
+        var members = JSON.parse(response.data.members);
+        var uid;
+        for (var i = 0; i < members.length; i++) {
+          Account.getUser(members[i]).then(function(response,j){
+            var usn = response.data.username;
+            var usid = response.data.id;
+            for (var j = 0; j < res.length; j++) {
+              if (res[j].by==usid) {
+                res[j].username = usn;
+              }
+            }
+          });
+        }
+        $scope.messagedbs = res;
       })
       .catch(function(response) {
         toastr.error(response.data.message, response.status);
@@ -84,12 +116,10 @@ angular.module('MyApp')
   var lastTypingTime;
   var TYPING_TIMER_LENGTH = 250;
 
-  var username;
-
   $scope.connectToSocket = function (){
     Chat.setRoom(roomid);
     Socket.on('connect',function(){
-      Account.getProfile().then(function(response){
+      Account.getUser($scope.getUserId()).then(function(response){
         username = response.data.username;
         Socket.emit('add user',username);
         Chat.setUsername(username);
@@ -136,15 +166,14 @@ angular.module('MyApp')
 
   $scope.sendMessage = function(msg){
     Chat.sendMessage(msg,roomid);
-    var username = Chat.setUsername();
-    var newMessage = {"message":msg,"username":username,"timestamp":Date.now()};
+    var newMessage = {"message":msg,"by":userid,"timestamp":Date.now()};
     var pushMessage = [];
 
     Room.getContent(roomid)
       .then(function(response) {
-        $scope.messagedbs = JSON.parse(response.data);
-        for( var i in $scope.messagedbs ) {
-            pushMessage[i] = $scope.messagedbs[i];
+        $scope.messagedbx = JSON.parse(response.data);
+        for( var i in $scope.messagedbx ) {
+            pushMessage[i] = $scope.messagedbx[i];
         }
         pushMessage.push(newMessage);
         $scope.pushMessage = {};
