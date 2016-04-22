@@ -71,15 +71,6 @@ angular.module('MyApp')
   };
 
   var username;
-
-  $scope.setUsername = function(){
-    Account.getUser($scope.getUserId()).then(function(response){
-      username = response.data.username;
-      User.setUsername(username);
-    });
-  };
-  $scope.setUsername();
-
   var userid = $scope.getUserId();
 
   /**
