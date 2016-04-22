@@ -109,12 +109,16 @@ angular.module('MyApp')
 
   $scope.connectToSocket = function (){
     Chat.setRoom(roomid);
-    Socket.on('connect',function(){
-      Account.getUser($scope.getUserId()).then(function(response){
-        username = response.data.username;
-        Socket.emit('add user',username);
-        Chat.setUsername(username);
-      });
+    Account.getProfile().then(function(response){
+      username = response.data.username;
+      console.log('before :'+Chat.getUsername());
+      Chat.setUsername(username);
+      console.log('after :'+Chat.getUsername());
+      Socket.emit('add user',username);
+      Socket.connect();
+      // Socket.on('connect',function(){
+      //   console.log('connect to socket');
+      // });
     });
   };
 
@@ -182,5 +186,15 @@ angular.module('MyApp')
     //reset input
     $scope.data.message = "";
   };
+
+  $scope.$on('$locationChangeStart', function() {
+    console.log('$locationChangeStart');
+    Socket.disconnect();
+    Socket.emit('disconnect');
+    Account.getProfile().then(function(response){
+      username = response.data.username;
+      Socket.emit('user left', {username: username});
+    });
+  });
 
 });

@@ -14,7 +14,7 @@ angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.
         controller: 'LoginCtrl',
         resolve: {
           skipIfLoggedIn: skipIfLoggedIn
-        }
+          }
       })
       .state('signup', {
         url: '/signup',
@@ -96,11 +96,11 @@ angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.
         templateUrl: 'partials/qr-code.html',
         controller: 'QRCodeCtrl'
       })
-      .state('chat', {
-        url: '/chat',
-        templateUrl: 'partials/chat.html',
-        controller: 'ChatCtrl'
-      })
+      // .state('chat', {
+      //   url: '/chat',
+      //   templateUrl: 'partials/chat.html',
+      //   controller: 'ChatCtrl'
+      // })
       .state('people', {
         url: '/people',
         templateUrl: 'partials/people.html',

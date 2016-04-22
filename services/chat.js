@@ -63,7 +63,7 @@ angular.module('MyApp')
   Socket.on('typing', function (data) {
     var typingMsg = {
       username: data.username,
-      message: TYPING_MSG,
+      message: data.username+' is typing '+TYPING_MSG,
       timestamp:null
     };
     addMessage(typingMsg);
