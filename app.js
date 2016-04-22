@@ -99,7 +99,18 @@ angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.
       .state('chat', {
         url: '/chat',
         templateUrl: 'partials/chat/chatroom.html',
-        // controller: 'ChatCtrl'
+        controller: 'ChatRoomCtrl',
+        resolve: {
+          loginRequired: loginRequired
+        }
+      })
+      .state('chats',{
+        url: '/chats/:id',
+        templateUrl: 'partials/chat/chatmember.html',
+        controller: 'ChatMemberCtrl',
+        resolve: {
+          loginRequired: loginRequired
+        }
       })
       .state('people', {
         url: '/people',

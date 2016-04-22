@@ -61,7 +61,7 @@ angular.module('MyApp')
 
 })
 
-.controller('ChatMemberCtrl', function($scope, $auth, $q, toastr, $stateParams, $timeout,Account, Socket, Chat,Room,User) {
+.controller('ChatMemberCtrl', function($scope, $auth, toastr, $stateParams, $timeout,Account, Socket, Chat,Room,User) {
   // $scope.messagedbs = [{"message":"test","username":"cescgie","timestamp":"2016-04-21 00:00:00"},{"message":"yuhu","username":"tono","timestamp":"2016-04-21 01:01:01"}];
   var roomid = $stateParams.id;
   $scope.userdata = {};
@@ -82,7 +82,6 @@ angular.module('MyApp')
         var res = JSON.parse(response.data.content);
         $scope.messagedbs = res;
         var members = JSON.parse(response.data.members);
-        var uid;
         for (var i = 0; i < members.length; i++) {
           Account.getUser(members[i]).then(function(response,j){
             var usn = response.data.username;
@@ -191,5 +190,40 @@ angular.module('MyApp')
   $scope.$on('$locationChangeStart', function() {
     Socket.disconnect();
   });
+
+})
+
+.controller('ChatRoomCtrl', function($scope, $auth, toastr, $stateParams, $timeout, Account, Room) {
+
+  $scope.getUserId = function(){
+    var logged_uid = $auth.getPayload();
+    return logged_uid.sub;
+  };
+  var userid = $scope.getUserId();
+
+  $scope.populateChatRoom = function (){
+    Account.getProfile().then(function(response){
+      $scope.rooms = [];
+      var my_room = JSON.parse(response.data.chat_room);
+      for (var j = 0; j < my_room.length; j++) {
+        Room.getRoom(my_room[j])
+          .then(function(response) {
+            var res = response.data;
+            var members = JSON.parse(response.data.members);
+            var partner = [];
+            for (var i = 0; i < members.length; i++) {
+              if (userid!=members[i]) {
+                Account.getUser(members[i]).then(function(response){
+                  var usn = response.data.username;
+                  res.partner = response.data.username;
+                });
+              }
+            }
+            $scope.rooms.push(res);
+        });
+      }
+    });
+  };
+  $scope.populateChatRoom();
 
 });

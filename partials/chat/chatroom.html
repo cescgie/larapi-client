@@ -1,7 +1,11 @@
 <div class="container">
   <div class="panel panel-default">
-    <div class="panel-heading">Chat Room</div>
+    <div class="panel-heading">Chat list</div>
     <div class="panel-body">
+      <div ng-repeat="room in rooms track by $index" >
+        <p><a href="#" ui-sref="chats({id:room.id})">{{room.partner}}</a></p>
+        <p>Last update : {{ room.updated_at | timeAgo }}</p>
+      </div>
     </div>
   </div>
 </div>
