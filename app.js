@@ -96,11 +96,11 @@ angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.
         templateUrl: 'partials/qr-code.html',
         controller: 'QRCodeCtrl'
       })
-      // .state('chat', {
-      //   url: '/chat',
-      //   templateUrl: 'partials/chat.html',
-      //   controller: 'ChatCtrl'
-      // })
+      .state('chat', {
+        url: '/chat',
+        templateUrl: 'partials/chat/chatroom.html',
+        // controller: 'ChatCtrl'
+      })
       .state('people', {
         url: '/people',
         templateUrl: 'partials/people.html',

@@ -187,14 +187,9 @@ angular.module('MyApp')
     $scope.data.message = "";
   };
 
+  //set user to offline if leave current route(chat page)
   $scope.$on('$locationChangeStart', function() {
-    console.log('$locationChangeStart');
     Socket.disconnect();
-    Socket.emit('disconnect');
-    Account.getProfile().then(function(response){
-      username = response.data.username;
-      Socket.emit('user left', {username: username});
-    });
   });
 
 });
