@@ -61,7 +61,7 @@ angular.module('MyApp')
 
 })
 
-.controller('ChatMemberCtrl', function($scope, $auth, toastr, $stateParams, $timeout,Account, Socket, Chat,Room,User) {
+.controller('ChatMemberCtrl', function($scope, $auth, toastr, $stateParams, $timeout,Account, Socket, Chat, Room, User) {
   // $scope.messagedbs = [{"message":"test","username":"cescgie","timestamp":"2016-04-21 00:00:00"},{"message":"yuhu","username":"tono","timestamp":"2016-04-21 01:01:01"}];
   var roomid = $stateParams.id;
   $scope.userdata = {};
@@ -82,18 +82,20 @@ angular.module('MyApp')
         var res = JSON.parse(response.data.content);
         $scope.messagedbs = res;
         var members = JSON.parse(response.data.members);
-        for (var i = 0; i < members.length; i++) {
-          Account.getUser(members[i]).then(function(response,j){
-            var usn = response.data.username;
-            var usid = response.data.id;
-            for (var j = 0; j < res.length; j++) {
-              if (res[j].by==usid) {
-                res[j].username = usn;
+        if (members != null && members.length > 0) {
+          for (var i = 0; i < members.length; i++) {
+            Account.getUser(members[i]).then(function(response,j){
+              var usn = response.data.username;
+              var usid = response.data.id;
+              for (var j = 0; j < res.length; j++) {
+                if (res[j].by==usid) {
+                  res[j].username = usn;
+                }
               }
-            }
-          });
+            });
+          }
+          $scope.messagedbs = res;
         }
-        $scope.messagedbs = res;
       })
       .catch(function(response) {
         toastr.error(response.data.message, response.status);
@@ -193,37 +195,74 @@ angular.module('MyApp')
 
 })
 
-.controller('ChatRoomCtrl', function($scope, $auth, toastr, $stateParams, $timeout, Account, Room) {
+.controller('ChatRoomCtrl', function($scope, $auth, toastr, $stateParams, $timeout, Account, Room, ngDialog, $location) {
 
   $scope.getUserId = function(){
     var logged_uid = $auth.getPayload();
     return logged_uid.sub;
   };
   var userid = $scope.getUserId();
-
   $scope.populateChatRoom = function (){
     Account.getProfile().then(function(response){
-      $scope.rooms = [];
-      var my_room = JSON.parse(response.data.chat_room);
-      for (var j = 0; j < my_room.length; j++) {
-        Room.getRoom(my_room[j])
-          .then(function(response) {
-            var res = response.data;
-            var members = JSON.parse(response.data.members);
-            var partner = [];
-            for (var i = 0; i < members.length; i++) {
-              if (userid!=members[i]) {
-                Account.getUser(members[i]).then(function(response){
-                  var usn = response.data.username;
-                  res.partner = response.data.username;
-                });
-              }
-            }
-            $scope.rooms.push(res);
-        });
+      if(Object.keys(response.data).length !== 0){
+        $scope.rooms = [];
+        var my_room = JSON.parse(response.data.chat_room);
+        if (my_room != null && my_room.length > 0) {
+          for (var j = 0; j < my_room.length; j++) {
+            Room.getRoom(my_room[j])
+              .then(function(response) {
+                var room_id = response.data.id;
+                var res = response.data;
+                var members = JSON.parse(response.data.members);
+                var partner = [];
+                if (members != null && members.length > 0) {
+                  for (var i = 0; i < members.length; i++) {
+                    if (userid!=members[i]) {
+                      Account.getUser(members[i]).then(function(response){
+                        var usn = response.data.username;
+                        res.partner = response.data.username;
+                      });
+                    }
+                  }
+                }else{
+                  Room.getRoom(room_id).then(function(response){
+                    var name = response.data.name;
+                    res.partner = name;
+                  });
+                }
+                $scope.rooms.push(res);
+            });
+          }
+        }
       }
     });
   };
   $scope.populateChatRoom();
+
+  $scope.newGroup = function () {
+     ngDialog.open({ template: 'partials/dialog/newgroup.html', className: 'ngdialog-theme-default', scope:$scope});
+  };
+
+  $scope.group = {};
+  $scope.createGroup = function(){
+    $scope.room = {};
+    ngDialog.closeAll();
+    var group = $scope.group;
+    $scope.room.name = group.name;
+    $scope.room.created_by = userid;
+    $scope.room.userid = userid;
+    $scope.room.content = [{"message":"Welcome","username":"Admin","timestamp":Date.now()}];
+    Room.createNewRoom($scope.room)
+      .then(function(response) {
+        if(response.data.status===false){
+          toastr.error(response.data.message);
+        }else{
+          toastr.success(response.data.message);
+        }
+      })
+      .catch(function(resp3) {
+        toastr.error(resp3.data.message, resp3.status);
+      });
+  };
 
 });

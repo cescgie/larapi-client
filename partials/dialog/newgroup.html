@@ -1,0 +1,12 @@
+<div class="dialog-contents">
+  <form method="post" ng-submit="createGroup()" name="groupForm">
+    <label for="name">Group name : </label><br>
+    <input type="text" name="name" ng-model="group.name" required autofocus/>
+    <div class="help-block text-danger" ng-if="groupForm.name.$dirty" ng-messages="groupForm.name.$error">
+      <div ng-message="required">You must enter group name.</div>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" ng-disabled="groupForm.$invalid" class="btn btn-default">Create</button>
+    </div>
+  </form>
+</div>
