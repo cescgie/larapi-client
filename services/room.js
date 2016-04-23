@@ -18,6 +18,9 @@ angular.module('MyApp')
       },
       getContent: function(id){
         return $http.get(BaseUrl+'/room/'+id+'/content');
+      },
+      getMember: function(id){
+        return $http.get(BaseUrl+'/room/'+id+'/member');
       }
     };
   });

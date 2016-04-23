@@ -134,6 +134,14 @@ angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.
         resolve: {
           loginRequired: loginRequired
         }
+      })
+      .state('groupmember',{
+        url: '/chat/member/:id',
+        templateUrl: 'partials/chat/listMember.html',
+        controller: 'ChatGroupCtrl',
+        resolve: {
+          loginRequired: loginRequired
+        }
       });
 
     $urlRouterProvider.otherwise('/');

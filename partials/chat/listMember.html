@@ -1,0 +1,12 @@
+<div class="container">
+  <div class="panel panel-default">
+    <div class="panel-heading">Chat list</div>
+    <div class="panel-body">
+      <div ng-repeat="user in users">
+        <p>{{user.username}}
+          <a class="btn btn-default" href="#" ng-click="addToGroup(user.id,groups.id)">Add to group</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

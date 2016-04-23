@@ -61,7 +61,7 @@ angular.module('MyApp')
 
 })
 
-.controller('ChatMemberCtrl', function($scope, $auth, toastr, $stateParams, $timeout,Account, Socket, Chat, Room, User) {
+.controller('ChatMemberCtrl', function($scope, $auth, toastr, $stateParams, $timeout,Account, Socket, Chat, Room, User, $location, ngDialog) {
   // $scope.messagedbs = [{"message":"test","username":"cescgie","timestamp":"2016-04-21 00:00:00"},{"message":"yuhu","username":"tono","timestamp":"2016-04-21 01:01:01"}];
   var roomid = $stateParams.id;
   $scope.userdata = {};
@@ -73,15 +73,36 @@ angular.module('MyApp')
   var username;
   var userid = $scope.getUserId();
 
+  function isInArray(value, array) {
+    return array.indexOf(value) > -1;
+  }
+
   /**
   * Populate Message from database
   */
   $scope.populateMessage = function (){
     Room.getRoom(roomid)
       .then(function(response) {
+        //check if room exists
+        if(Object.keys(response.data).length === 0){
+          return $location.path( "/chat");
+        }
         var res = JSON.parse(response.data.content);
         $scope.messagedbs = res;
         var members = JSON.parse(response.data.members);
+        //check if user have an authorize to open room chat
+        if(!isInArray(userid,members)){
+          return $location.path( "/chat");
+        }
+        $scope.groups = {};
+        if(response.data.group_state !== null){
+          console.log('group');
+          $scope.groups.state = true;
+          $scope.groups.id = response.data.id;
+        }else{
+          console.log('private');
+        }
+
         if (members != null && members.length > 0) {
           for (var i = 0; i < members.length; i++) {
             Account.getUser(members[i]).then(function(response,j){
@@ -214,8 +235,9 @@ angular.module('MyApp')
                 var room_id = response.data.id;
                 var res = response.data;
                 var members = JSON.parse(response.data.members);
+                var chatname = response.data.name;
                 var partner = [];
-                if (members != null && members.length > 0) {
+                if (members != null && members.length > 0 && chatname == null) {
                   for (var i = 0; i < members.length; i++) {
                     if (userid!=members[i]) {
                       Account.getUser(members[i]).then(function(response){
@@ -258,6 +280,7 @@ angular.module('MyApp')
           toastr.error(response.data.message);
         }else{
           toastr.success(response.data.message);
+          $scope.populateChatRoom();
         }
       })
       .catch(function(resp3) {
@@ -265,4 +288,50 @@ angular.module('MyApp')
       });
   };
 
+})
+
+.controller('ChatGroupCtrl', function($scope, toastr, $stateParams, $timeout, Room, User) {
+  var roomid = $stateParams.id;
+
+  function isInArray(value, array) {
+    return array.indexOf(value) > -1;
+  }
+
+  $scope.users = {};
+  $scope.groups = {};
+  $scope.listMember = function () {
+     $scope.groups.id = roomid;
+     User.all().then(function(response){
+       $scope.users = response.data;
+     });
+  };
+
+  $scope.listMember();
+
+  $scope.addToGroup = function(id,group){
+    var newUid = id;
+    var pushMember = [];
+
+    Room.getMember(group)
+      .then(function(response) {
+        $scope.membersdbx = JSON.parse(response.data);
+        for( var i in $scope.membersdbx ) {
+            pushMember[i] = $scope.membersdbx[i];
+        }
+        if(!isInArray(newUid,pushMember)){
+          pushMember.push(newUid);
+        }
+        $scope.pushMember = {};
+        $scope.pushMember.newMember = newUid;
+        $scope.pushMember.members = pushMember;
+        Room.updateRoom(roomid,$scope.pushMember)
+          .then(function(response) {
+            if(response.data.status===false){
+              toastr.error(response.data.message);
+            }else{
+              toastr.success(response.data.message);
+            }
+          });
+      });
+  };
 });

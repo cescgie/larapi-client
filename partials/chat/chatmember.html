@@ -1,6 +1,10 @@
 <div class="container">
   <div class="panel panel-default">
-    <div class="panel-heading">Chat</div>
+    <div class="panel-heading">Chat
+      <div ng-if="groups.state">
+        <p><a href="#/chat/member/{{groups.id}}">Add Member</a></p>
+      </div>
+    </div>
     <div class="panel-body">
       <div class="chat chatArea" style="height: 300px; overflow: auto" scroll-glue-bottom="glued">
         <div ng-repeat="messagedb in messagedbs track by $index">
