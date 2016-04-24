@@ -230,7 +230,7 @@ angular.module('MyApp')
     Account.getProfile().then(function(response){
       if(Object.keys(response.data).length !== 0){
         $scope.rooms = [];
-        var my_room = JSON.parse(response.data.chat_room);
+        var my_room = JSON.parse(response.data.chat_rooms);
         if (my_room != null && my_room.length > 0) {
           for (var j = 0; j < my_room.length; j++) {
             Room.getRoom(my_room[j])
@@ -307,7 +307,8 @@ angular.module('MyApp')
   $scope.listMember = function () {
      $scope.groups.id = roomid;
      User.all().then(function(response){
-       $scope.users = response.data;
+      //  $scope.users = response.data;
+       console.log(response.data);
      });
   };
 
