@@ -61,7 +61,7 @@ angular.module('MyApp')
 
 })
 
-.controller('ChatMemberCtrl', function($scope, $auth, toastr, $stateParams, $timeout,Account, Socket, Chat, Room, User, $location, ngDialog) {
+.controller('ChatMemberCtrl', function($scope, $auth, toastr, $stateParams, $timeout,Account, Socket, Chat, Room, User, $location, ngDialog, moment) {
   // $scope.messagedbs = [{"message":"test","username":"cescgie","timestamp":"2016-04-21 00:00:00"},{"message":"yuhu","username":"tono","timestamp":"2016-04-21 01:01:01"}];
   var roomid = $stateParams.id;
   $scope.userdata = {};
@@ -182,8 +182,9 @@ angular.module('MyApp')
   };
 
   $scope.sendMessage = function(msg){
+    var timestamp = moment().format('YYYY-MM-DD HH:mm:ss');
     Chat.sendMessage(msg,roomid);
-    var newMessage = {"message":msg,"by":userid,"timestamp":Date.now()};
+    var newMessage = {"message":msg,"by":userid,"timestamp":timestamp};
     var pushMessage = [];
 
     Room.getContent(roomid)
@@ -195,6 +196,7 @@ angular.module('MyApp')
         pushMessage.push(newMessage);
         $scope.pushMessage = {};
         $scope.pushMessage.content = pushMessage;
+        $scope.pushMessage.updated_at = moment().format(timestamp);
         Room.updateRoom(roomid,$scope.pushMessage)
           .then(function(response) {
             if(response.data.status===false){
@@ -216,12 +218,13 @@ angular.module('MyApp')
 
 })
 
-.controller('ChatRoomCtrl', function($scope, $auth, toastr, $stateParams, $timeout, Account, Room, ngDialog, $location) {
+.controller('ChatRoomCtrl', function($scope, $auth, toastr, $stateParams, $timeout, Account, Room, ngDialog, $location, moment) {
 
   $scope.getUserId = function(){
     var logged_uid = $auth.getPayload();
     return logged_uid.sub;
   };
+
   var userid = $scope.getUserId();
   $scope.populateChatRoom = function (){
     Account.getProfile().then(function(response){
@@ -267,13 +270,15 @@ angular.module('MyApp')
 
   $scope.group = {};
   $scope.createGroup = function(){
+    var timestamp = moment().format('YYYY-MM-DD HH:mm:ss');
     $scope.room = {};
     ngDialog.closeAll();
     var group = $scope.group;
     $scope.room.name = group.name;
     $scope.room.created_by = userid;
     $scope.room.userid = userid;
-    $scope.room.content = [{"message":"Welcome","username":"Admin","timestamp":Date.now()}];
+    $scope.room.created_at = timestamp;
+    $scope.room.content = [{"message":"Welcome","username":"Admin","timestamp":timestamp}];
     Room.createNewRoom($scope.room)
       .then(function(response) {
         if(response.data.status===false){

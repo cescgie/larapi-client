@@ -13,7 +13,7 @@ angular.module('MyApp')
     $scope.getAllUser();
   })
 
-  .controller('PopUserCtrl', function($scope,$stateParams,User,$auth,ngDialog,Account,Room,toastr,$location) {
+  .controller('PopUserCtrl', function($scope,$stateParams,User,$auth,ngDialog,Account,Room,toastr,$location, moment) {
     $scope.params = $stateParams;
 
     $scope.populateData = function (){
@@ -51,6 +51,7 @@ angular.module('MyApp')
 
     $scope.confirmChat = function(my_id,with_id){
       ngDialog.closeAll();
+      var timestamp = moment().format('YYYY-MM-DD HH:mm:ss');
       $scope.room = {};
       var members = new Array(my_id,with_id);
       $scope.room.members = JSON.stringify(members);
@@ -69,7 +70,8 @@ angular.module('MyApp')
               $scope.messages = resp2.data.content;
               $location.path( "/chat/"+room_id_2 );
             }else{
-              $scope.room.content = [{"message":"Welcome","username":"Admin","timestamp":Date.now()}];
+              $scope.room.created_at = timestamp;
+              $scope.room.content = [{"message":"Welcome","username":"Admin","timestamp":timestamp}];
               Room.createNewRoom($scope.room)
                 .then(function(response) {
                   if(response.data.status===false){

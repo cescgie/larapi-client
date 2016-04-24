@@ -1,6 +1,6 @@
 var BaseUrl = '/api';
 
-angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.router', 'satellizer','ngRoute','monospaced.qrcode', 'btford.socket-io','luegg.directives','yaru22.angular-timeago','ngDialog'])
+angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.router', 'satellizer','ngRoute','monospaced.qrcode', 'btford.socket-io','luegg.directives','yaru22.angular-timeago','ngDialog','angularMoment'])
   .config(function($stateProvider, $urlRouterProvider, $authProvider,$locationProvider) {
     $stateProvider
       .state('home', {
@@ -166,4 +166,9 @@ angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.
       return deferred.promise;
     }
 
-  });
+});
+
+angular.module('MyApp')
+.run(function(amMoment) {
+  // amMoment.changeLocale('id');
+});
