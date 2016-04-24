@@ -295,7 +295,7 @@ angular.module('MyApp')
 
 })
 
-.controller('ChatGroupCtrl', function($scope, toastr, $stateParams, $timeout, Room, User) {
+.controller('ChatGroupCtrl', function($scope, toastr, $stateParams, $timeout, Room, User, moment) {
   var roomid = $stateParams.id;
 
   function isInArray(value, array) {
@@ -316,6 +316,7 @@ angular.module('MyApp')
   $scope.addToGroup = function(id,group){
     var newUid = id;
     var pushMember = [];
+    var timestamp = moment().format('YYYY-MM-DD HH:mm:ss');
 
     Room.getMember(group)
       .then(function(response) {
@@ -329,6 +330,7 @@ angular.module('MyApp')
         $scope.pushMember = {};
         $scope.pushMember.newMember = newUid;
         $scope.pushMember.members = pushMember;
+        $scope.pushMember.updated_at = timestamp;
         Room.updateRoom(roomid,$scope.pushMember)
           .then(function(response) {
             if(response.data.status===false){
