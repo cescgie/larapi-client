@@ -295,20 +295,26 @@ angular.module('MyApp')
 
 })
 
-.controller('ChatGroupCtrl', function($scope, toastr, $stateParams, $timeout, Room, User, moment) {
+.controller('ChatGroupCtrl', function($scope, toastr, $stateParams, $timeout, Room, User, moment, ngDialog) {
   var roomid = $stateParams.id;
 
   function isInArray(value, array) {
     return array.indexOf(value) > -1;
   }
 
-  $scope.users = {};
-  $scope.groups = {};
   $scope.listMember = function () {
-     $scope.groups.id = roomid;
-     User.all().then(function(response){
-      //  $scope.users = response.data;
-       console.log(response.data);
+    var pushMember = [];
+    $scope.group = {};
+    $scope.group.id = roomid;
+    $scope.users = {};
+     Room.getMember(roomid).then(function(response){
+       var user_id = JSON.parse(response.data);
+       for( var i in user_id) {
+           User.getUser(user_id[i]).then(function(response){
+             pushMember.push(response.data);
+             $scope.users = pushMember;
+           });
+       }
      });
   };
 
@@ -338,8 +344,34 @@ angular.module('MyApp')
               toastr.error(response.data.message);
             }else{
               toastr.success(response.data.message);
+              $scope.addMember(group);
             }
           });
       });
+  };
+
+  $scope.addMember = function (id) {
+     ngDialog.closeAll();
+     $scope.group.id = id;
+     $scope.peoples = {};
+     User.all().then(function(response){
+        var room = response.data;
+        $scope.peoples = room;
+        if (room != null && room.length > 0) {
+        //check if user already in room. If ya -> state:true
+         for (var i in room) {
+           if (room.hasOwnProperty(i)) {
+             if(id,room[i].chat_rooms !== null){
+               if(isInArray(id,room[i].chat_rooms)){
+                 room[i].state = true;
+               }else{
+                 room[i].state = false;
+               }
+             }
+           }
+         }
+        }
+     });
+     ngDialog.open({ template: 'partials/dialog/addmember.html', className: 'ngdialog-theme-default', scope:$scope});
   };
 });
