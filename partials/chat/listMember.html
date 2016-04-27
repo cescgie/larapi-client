@@ -1,13 +1,14 @@
 <div class="container">
   <div class="panel panel-default">
     <div class="panel-heading">Member list
-      <p><a href="#" ng-click='addMember(group.id)'>Add Member</a></p>
+      <p><a href="javascript:void(0)" ng-click='addMember(group.id)'>Add Member</a></p>
     </div>
     <div class="panel-body">
       <div ng-repeat="user in users">
-        <p>{{user.username}}
-          <!-- <a class="btn btn-default" href="#" ng-click="addToGroup(user.id,groups.id)">Add to group</a> -->
-        </p>
+        {{user.username}}
+          <div ng-if="mes.id != user.id">
+            <a href="javascript:void(0)" class="btn btn-default" ng-click='removeMember(user.id,group.id)'>Kick out!</a>
+          </div>
       </div>
     </div>
   </div>

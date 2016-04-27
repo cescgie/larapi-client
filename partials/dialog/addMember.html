@@ -4,7 +4,7 @@
     <div ng-repeat="people in peoples">
       <p>{{people.username}}</p>
         <div ng-if="people.state !== true">
-          <a class="btn btn-default" href="#" ng-click="addToGroup(people.id,group.id)">Add to group</a>
+          <a class="btn btn-default" href="javascript:void(0)" ng-click="addToGroup(people.id,group.id)">Add to group</a>
         </div>
       </p>
     </div>

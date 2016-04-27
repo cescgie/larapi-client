@@ -295,15 +295,24 @@ angular.module('MyApp')
 
 })
 
-.controller('ChatGroupCtrl', function($scope, toastr, $stateParams, $timeout, Room, User, moment, ngDialog) {
+.controller('ChatGroupCtrl', function($scope, $auth, toastr, $stateParams, $timeout, Room, User, moment, ngDialog) {
   var roomid = $stateParams.id;
+
+  $scope.getUserId = function(){
+    var logged_uid = $auth.getPayload();
+    return logged_uid.sub;
+  };
+
+  var userid = $scope.getUserId();
 
   function isInArray(value, array) {
     return array.indexOf(value) > -1;
   }
 
+  $scope.mes = {};
   $scope.listMember = function () {
     var pushMember = [];
+    $scope.mes.id = userid;
     $scope.group = {};
     $scope.group.id = roomid;
     $scope.users = {};
@@ -324,7 +333,6 @@ angular.module('MyApp')
     var newUid = id;
     var pushMember = [];
     var timestamp = moment().format('YYYY-MM-DD HH:mm:ss');
-
     Room.getMember(group)
       .then(function(response) {
         $scope.membersdbx = JSON.parse(response.data);
@@ -347,6 +355,7 @@ angular.module('MyApp')
               $scope.addMember(group);
             }
           });
+        $scope.listMember();
       });
   };
 
@@ -374,4 +383,37 @@ angular.module('MyApp')
      });
      ngDialog.open({ template: 'partials/dialog/addmember.html', className: 'ngdialog-theme-default', scope:$scope});
   };
+
+  $scope.removeMember = function(uid,roomid){
+    var timestamp = moment().format('YYYY-MM-DD HH:mm:ss');
+    Room.getMember(roomid).then(function(response){
+      var userids = JSON.parse(response.data);
+      $scope.remove_item(userids,uid);
+      $scope.pushMember = {};
+      $scope.pushMember.oldMember = uid;
+      $scope.pushMember.members = userids;
+      $scope.pushMember.updated_at = timestamp;
+      Room.updateRoom(roomid,$scope.pushMember)
+        .then(function(response) {
+          if(response.data.status===false){
+            toastr.error(response.data.message);
+          }else{
+            toastr.success(response.data.message);
+          }
+        });
+      $scope.listMember();
+    });
+  };
+
+  $scope.remove_item = function (arr, value) {
+    var b = '';
+    for (b in arr) {
+        if (arr[b] === value) {
+            arr.splice(b, 1);
+            break;
+        }
+    }
+    return arr;
+  };
+
 });
